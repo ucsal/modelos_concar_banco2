@@ -1,104 +1,103 @@
-CREATE TABLE Area_Abast_Agua (
-  Area_Abast_Agua SERIAL NOT NULL,
-  Complexo_Abast_Agua_Org_Comerc_Serv_Org_Comerc_Serv SERIAL NOT NULL,
-  Complexo_Abast_Agua_Complexo_Abast_Agua SERIAL NOT NULL,
-  idArea_Abast_Agua POLYGON NOT NULL AUTO_INCREMENT,
-  Desc_2 TEXT NULL,
-  PRIMARY KEY(Area_Abast_Agua),
-  INDEX Area_Abast_Agua_FKIndex1(Complexo_Abast_Agua_Complexo_Abast_Agua, Complexo_Abast_Agua_Org_Comerc_Serv_Org_Comerc_Serv)
+CREATE SEQUENCE area_pub_civil_id_seq;
+
+CREATE TABLE Area_Pub_Civil (
+  Area_Pub_Civil SERIAL PRIMARY KEY,
+  idArea_Pub_Civil POLYGON NOT NULL,
+  Desc_2 TEXT
 );
 
-CREATE TABLE Area_Saneamento (
-  Area_Saneamento SERIAL NOT NULL,
-  idArea_Saneamento POLYGON NOT NULL AUTO_INCREMENT,
-  Complexo_Saneamento_Complexo_Saneamento SERIAL NOT NULL,
-  Complexo_Saneamento_Org_Comerc_Serv_Org_Comerc_Serv SERIAL NOT NULL,
-  Desc_2 TEXT NULL,
-  PRIMARY KEY(Area_Saneamento),
-  INDEX Area_Saneamento_FKIndex1(Complexo_Saneamento_Org_Comerc_Serv_Org_Comerc_Serv, Complexo_Saneamento_Complexo_Saneamento)
+CREATE SEQUENCE area_pub_militar_id_seq;
+
+CREATE TABLE Area_Pub_Militar (
+  Area_Pub_Militar SERIAL PRIMARY KEY,
+  Org_Pub_Militar_Org_Pub_Militar SERIAL NOT NULL,
+  idArea_Pub_Militar POLYGON NOT NULL,
+  Desc_2 TEXT,
+  FOREIGN KEY (Org_Pub_Militar_Org_Pub_Militar) REFERENCES Org_Pub_Militar(Org_Pub_Militar)
 );
 
-CREATE TABLE Cemiterio (
-  Cemiterio SERIAL NOT NULL,
-  idCemiterio MULTIPOINT NOT NULL AUTO_INCREMENT,
-  Desc_2 TEXT NULL,
-  PRIMARY KEY(Cemiterio)
+CREATE SEQUENCE edif_pub_civil_id_seq;
+
+CREATE TABLE Edif_Pub_Civil (
+  Edif_Pub_Civil SERIAL PRIMARY KEY,
+  idEdit_Pub_Civil MULTIPOINT NOT NULL,
+  Desc_2 TEXT
 );
 
-CREATE TABLE Complexo_Abast_Agua (
-  Complexo_Abast_Agua SERIAL NOT NULL,
-  Org_Comerc_Serv_Org_Comerc_Serv SERIAL NOT NULL,
-  idComplexo_Abast_Agua MULTIPOLYGON NOT NULL AUTO_INCREMENT,
-  Desc_2 TEXT NULL,
-  PRIMARY KEY(Complexo_Abast_Agua, Org_Comerc_Serv_Org_Comerc_Serv),
-  INDEX Complexo_Abast_Agua_FKIndex1(Org_Comerc_Serv_Org_Comerc_Serv)
+CREATE SEQUENCE edif_pub_militar_id_seq;
+
+CREATE TABLE Edif_Pub_Militar (
+  Edif_Pub_Militar SERIAL PRIMARY KEY,
+  idEdif_Pub_Militar MULTIPOLYGON NOT NULL,
+  Org_Pub_Militar_Org_Pub_Militar SERIAL NOT NULL,
+  Desc_2 TEXT,
+  FOREIGN KEY (Org_Pub_Militar_Org_Pub_Militar) REFERENCES Org_Pub_Militar(Org_Pub_Militar)
 );
 
-CREATE TABLE Complexo_Saneamento (
-  Org_Comerc_Serv_Org_Comerc_Serv SERIAL NOT NULL,
-  Complexo_Saneamento SERIAL NOT NULL,
-  idComplexo_Saneamento MULTIPOLYGON NOT NULL AUTO_INCREMENT,
-  Desc_2 INTEGER UNSIGNED NULL,
-  PRIMARY KEY(Org_Comerc_Serv_Org_Comerc_Serv, Complexo_Saneamento),
-  INDEX Complexo_Saneamento_FKIndex1(Org_Comerc_Serv_Org_Comerc_Serv)
+CREATE SEQUENCE instituicoes_publicas_id_seq;
+
+CREATE TABLE Instituicoes_Publicas (
+  Org_Pub_Civil_Org_Pub_Civil SERIAL NOT NULL,
+  Instituicoes_Publicas SERIAL NOT NULL,
+  idInstituicoes_Publicas MULTIPOLYGON NOT NULL,
+  Desc_2 TEXT,
+  PRIMARY KEY(Org_Pub_Civil_Org_Pub_Civil, Instituicoes_Publicas),
+  FOREIGN KEY (Org_Pub_Civil_Org_Pub_Civil) REFERENCES Org_Pub_Civil(Org_Pub_Civil)
 );
 
-CREATE TABLE Dep_Abast_Agua (
-  Dep_Abast_Agua SERIAL NOT NULL,
-  Complexo_Abast_Agua_Org_Comerc_Serv_Org_Comerc_Serv SERIAL NOT NULL,
-  idDep_Abast_Agua MULTIPOINT NOT NULL AUTO_INCREMENT,
-  Complexo_Abast_Agua_Complexo_Abast_Agua SERIAL NOT NULL,
-  Desc_2 TEXT NULL,
-  PRIMARY KEY(Dep_Abast_Agua),
-  INDEX Dep_Abast_Agua_FKIndex1(Complexo_Abast_Agua_Complexo_Abast_Agua, Complexo_Abast_Agua_Org_Comerc_Serv_Org_Comerc_Serv)
+CREATE SEQUENCE org_industrial_id_seq;
+
+CREATE TABLE Org_Industrial (
+  Org_Industrial SERIAL PRIMARY KEY,
+  Org_Pub_Civil_Org_Pub_Civil SERIAL NOT NULL,
+  Org_Pub_Militar_Org_Pub_Militar SERIAL NOT NULL,
+  idOrg_Industrial MULTIPOLYGON NOT NULL,
+  Desc_2 TEXT,
+  FOREIGN KEY (Org_Pub_Civil_Org_Pub_Civil) REFERENCES Org_Pub_Civil(Org_Pub_Civil),
+  FOREIGN KEY (Org_Pub_Militar_Org_Pub_Militar) REFERENCES Org_Pub_Militar(Org_Pub_Militar)
 );
 
-CREATE TABLE Dep_Saneamento (
-  Dep_Saneamento SERIAL NOT NULL,
-  idDep_Saneamento MULTIPOINT NOT NULL AUTO_INCREMENT,
-  Complexo_Saneamento_Complexo_Saneamento SERIAL NOT NULL,
-  Complexo_Saneamento_Org_Comerc_Serv_Org_Comerc_Serv SERIAL NOT NULL,
-  Desc_2 TEXT NULL,
-  PRIMARY KEY(Dep_Saneamento),
-  INDEX Dep_Saneamento_FKIndex1(Complexo_Saneamento_Org_Comerc_Serv_Org_Comerc_Serv, Complexo_Saneamento_Complexo_Saneamento)
+CREATE SEQUENCE org_pub_civil_id_seq;
+
+CREATE TABLE Org_Pub_Civil (
+  Org_Pub_Civil SERIAL PRIMARY KEY,
+  Edif_Pub_Civil_Edif_Pub_Civil SERIAL NOT NULL,
+  idOrg_Pub_Civil MULTIPOLYGON NOT NULL,
+  Area_Pub_Civil_Area_Pub_Civil SERIAL NOT NULL,
+  Desc_2 TEXT,
+  FOREIGN KEY (Edif_Pub_Civil_Edif_Pub_Civil) REFERENCES Edif_Pub_Civil(Edif_Pub_Civil),
+  FOREIGN KEY (Area_Pub_Civil_Area_Pub_Civil) REFERENCES Area_Pub_Civil(Area_Pub_Civil)
 );
 
-CREATE TABLE Edif_Abast_Agua (
-  Edif_Abast_Agua SERIAL NOT NULL,
-  Complexo_Abast_Agua_Org_Comerc_Serv_Org_Comerc_Serv SERIAL NOT NULL,
-  idEdif_Abast_Agua MULTIPOINT NOT NULL AUTO_INCREMENT,
-  Complexo_Abast_Agua_Complexo_Abast_Agua SERIAL NOT NULL,
-  Desc_2 TEXT NULL,
-  PRIMARY KEY(Edif_Abast_Agua),
-  INDEX Edif_Abast_Agua_FKIndex1(Complexo_Abast_Agua_Complexo_Abast_Agua, Complexo_Abast_Agua_Org_Comerc_Serv_Org_Comerc_Serv)
+CREATE SEQUENCE org_pub_militar_id_seq;
+
+CREATE TABLE Org_Pub_Militar (
+  Org_Pub_Militar SERIAL PRIMARY KEY,
+  idOrg_Pub_Militar MULTIPOLYGON NOT NULL,
+  Instituicoes_Publicas_Instituicoes_Publicas SERIAL NOT NULL,
+  Instituicoes_Publicas_Org_Pub_Civil_Org_Pub_Civil SERIAL NOT NULL,
+  Desc_2 TEXT,
+  FOREIGN KEY (Instituicoes_Publicas_Org_Pub_Civil_Org_Pub_Civil, Instituicoes_Publicas_Instituicoes_Publicas) REFERENCES Instituicoes_Publicas(Org_Pub_Civil_Org_Pub_Civil, Instituicoes_Publicas)
 );
 
-CREATE TABLE Edif_Saneamento (
-  Edif_Saneamento SERIAL NOT NULL,
-  idEdif_Saneamento MULTIPOINT NOT NULL AUTO_INCREMENT,
-  Complexo_Saneamento_Complexo_Saneamento SERIAL NOT NULL,
-  Complexo_Saneamento_Org_Comerc_Serv_Org_Comerc_Serv SERIAL NOT NULL,
-  Desc_2 TEXT NULL,
-  PRIMARY KEY(Edif_Saneamento),
-  INDEX Edif_Saneamento_FKIndex1(Complexo_Saneamento_Org_Comerc_Serv_Org_Comerc_Serv, Complexo_Saneamento_Complexo_Saneamento)
+CREATE SEQUENCE posto_fiscal_id_seq;
+
+CREATE TABLE Posto_Fiscal (
+  Edif_Pub_Civil_Edif_Pub_Civil SERIAL NOT NULL,
+  Posto_Fiscal SERIAL PRIMARY KEY,
+  idPosto_Fiscal MULTIPOINT NOT NULL,
+  Desc_2 TEXT,
+  FOREIGN KEY (Edif_Pub_Civil_Edif_Pub_Civil) REFERENCES Edif_Pub_Civil(Edif_Pub_Civil)
 );
 
-CREATE TABLE Org_Comerc_Serv (
-  Org_Comerc_Serv SERIAL NOT NULL,
-  idOrg_Comerc_Serv MULTIPOLYGON NOT NULL AUTO_INCREMENT,
-  Desc_2 TEXT NULL,
-  PRIMARY KEY(Org_Comerc_Serv)
+CREATE SEQUENCE posto_pol_rod_id_seq;
+
+CREATE TABLE Posto_Pol_Rod (
+  Edif_Pub_Civil_Edif_Pub_Civil SERIAL NOT NULL,
+  Posto_Pol_Rod SERIAL PRIMARY KEY,
+  Edif_Pub_Militar_Edif_Pub_Militar SERIAL NOT NULL,
+  idPosto_Pol_Rod MULTIPOINT NOT NULL,
+  Desc_2 TEXT,
+  FOREIGN KEY (Edif_Pub_Civil_Edif_Pub_Civil) REFERENCES Edif_Pub_Civil(Edif_Pub_Civil),
+  FOREIGN KEY (Edif_Pub_Militar_Edif_Pub_Militar) REFERENCES Edif_Pub_Militar(Edif_Pub_Militar)
 );
-
-CREATE TABLE Trecho_Outro (
-  Trecho_Outro SERIAL NOT NULL,
-  Dep_Saneamento_Dep_Saneamento SERIAL NOT NULL,
-  idTrecho_Outro LINESTRING NOT NULL AUTO_INCREMENT,
-  Dep_Abast_Agua_Dep_Abast_Agua SERIAL NOT NULL,
-  Desc_2 TEXT NULL,
-  PRIMARY KEY(Trecho_Outro),
-  INDEX Trecho_Outro_FKIndex1(Dep_Abast_Agua_Dep_Abast_Agua),
-  INDEX Trecho_Outro_FKIndex2(Dep_Saneamento_Dep_Saneamento)
-);
-
-
